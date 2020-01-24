@@ -9,30 +9,28 @@ KaplanMeier(
   predictor,
   event,
   eventage,
+  table = TRUE,
+  reverse_table = FALSE,
+  timeby = 365,
+  years = TRUE,
+  hr = TRUE,
+  reverseHR = FALSE,
   adjust_cat = NULL,
   adjust_con = NULL,
-  table = TRUE,
-  returns = FALSE,
+  returns = TRUE,
   ycut = NULL,
-  HR_text = NULL,
   xlabs = "Time",
   ylabs = "Survival probability",
-  ystratalabs = NULL,
-  ystrataname = NULL,
-  timeby = 365,
-  maxtime = NULL,
   main = "Kaplan-Meier Plot",
-  pval = FALSE,
+  legend_title = NULL,
+  legend_names = NULL,
+  maxtime = NULL,
   rotate = TRUE,
-  years = TRUE,
-  hr = FALSE,
-  color = FALSE,
+  color = TRUE,
   colors = NULL,
-  reverseHR = FALSE,
   annotation = NULL,
-  reverse_table = FALSE,
-  No_legends = FALSE,
-  No_names = FALSE,
+  no_legends = FALSE,
+  no_names = FALSE,
   low_legend = FALSE
 )
 }
@@ -44,6 +42,52 @@ KaplanMeier(
 \item{event}{event}
 
 \item{eventage}{eventage}
+
+\item{table}{Display survival table below graph; default is TRUE.}
+
+\item{reverse_table}{reverse the upper/lower part of table; default is FALSE.}
+
+\item{timeby}{Cut points for the table; default is 365 (days).}
+
+\item{years}{X-axis in years - else in days; default is TRUE.}
+
+\item{hr}{Make and plot cox proportional HR; default is TRUE.}
+
+\item{reverseHR}{Change case/control categories for HR; default is FALSE.}
+
+\item{adjust_cat}{Categorical variables to adjust the cox HR for.}
+
+\item{adjust_con}{Continues variables to adjust the cox HR for.}
+
+\item{returns}{outputs the ggplot/grob object; default is TRUE.}
+
+\item{ycut}{Cut y-axis at a certain percentage; default is NULL.}
+
+\item{xlabs}{X-axis label}
+
+\item{ylabs}{Y-axis label}
+
+\item{main}{Plot title.}
+
+\item{legend_title}{Legend title; default is name of predictor.}
+
+\item{legend_names}{Define variable names for legend text.}
+
+\item{maxtime}{To get consistent max times on x axes in stratified plots.}
+
+\item{rotate}{Switch the predictor order; default is FALSE.}
+
+\item{color}{Color plot, else black/greytone; default is TRUE.}
+
+\item{colors}{Set of defined colors for predictor groups; default is NULL.}
+
+\item{annotation}{Paste an annotation in the corner; default is NULL.}
+
+\item{no_legends}{Removes legend; default is FALSE.}
+
+\item{no_names}{Removes taxa names; default is FALSE.}
+
+\item{low_legend}{Put legends in the bottom, else in the top corner; default is FALSE.}
 }
 \value{
 A ggplot / grob
