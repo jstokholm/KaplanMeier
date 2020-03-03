@@ -88,7 +88,7 @@ KaplanMeier <- function(data,
   # require(grid)
   # require(dplyr)
   # require(RColorBrewer)
-
+  data <- data.frame(data)
   sfit <- survfit(Surv(data[,eventage], data[,event] == 1) ~ factor(data[,predictor]))
 
   if(is.null(legend_names)) legend_names <-as.character(levels(factor(data[,predictor])))
@@ -247,5 +247,4 @@ KaplanMeier <- function(data,
     print(p)
     if(returns) return(p)
   }
-
 }
