@@ -118,6 +118,7 @@ KaplanMeier <- function(data,
     zeros <- data.frame(time = 0, surv = 1.00, strata = factor(legend_names, levels=levels(.df$strata)), upper = 1.00, lower = 1.00)
   }
   .df <- bind_rows(zeros, .df)
+  .df[.df$time > max(times),"time"] <- max(times) #fix for curves being cut;
   d <- length(levels(.df$strata))
   if(color) {
     if(is.null(colors)){
