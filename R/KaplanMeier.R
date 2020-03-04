@@ -34,9 +34,9 @@
 #' @return A ggplot / grob
 #' @export
 
-# fig1 <- KaplanMeier(data=X, predictor="fishoil", event="event_j45_5yr",eventage= "eventage_j45_5yr", timeby=365, main = NULL, xlabs = "Age (years)", ylabs="Risk of persistent wheeze / asthma (%)", legend_names=c("n3-LCPUFA","Placebo"),legend_title=NULL,pval = FALSE,returns = TRUE, hr =TRUE,table=TRUE, reverseHR=TRUE, color=T)
+# fig1 <- KaplanMeier(data=X, predictor="fishoil", event="event_j45_5yr",eventage= "eventage_j45_5yr", timeby=365, main = NULL, xlabs = "Age (years)", ylabs="Risk of persistent wheeze / asthma (%)", legend_names=c("n3-LCPUFA","Placebo"),legend_title=NULL,returns = TRUE, hr =TRUE,table=TRUE, reverseHR=TRUE, color=TRUE)
 
-# fig1 <- KaplanMeier(data=X, predictor=1, event="event_j45_5yr",eventage= "eventage_j45_5yr", timeby=365, main = "NULL", xlabs = "Age (years)", ylabs="Risk of persistent wheeze / asthma (%)",legend_title=NULL,pval = FALSE,returns = TRUE, hr =FALSE,table=FALSE, reverseHR=FALSE, color=FALSE)
+# fig1 <- KaplanMeier(data=X, predictor=1, event="event_j45_5yr",eventage= "eventage_j45_5yr", timeby=365, main = "NULL", xlabs = "Age (years)", ylabs="Risk of persistent wheeze / asthma (%)",legend_title=NULL,returns = TRUE, hr =FALSE,table=FALSE, reverseHR=FALSE, color=FALSE)
 #
 #Make a pdf
 #pdf('./FigsNtabs/PUFA_5YR_plot.pdf',height = 5,width = 5)
@@ -44,15 +44,11 @@
 #dev.off()
 #
 # Eks. stratify the data (here by prelevel PUFA tertile)
-# KaplanMeier(data=X[X$tPufa =="(0.829,4.3]",], predictor="fishoil", event="event_j45_5yr",eventage= "eventage_j45_5yr", timeby=365, main = NULL, xlabs = "Age (years)", ylabs="Risk of persistent wheeze / asthma (%)", legend_names=c("n3-LCPUFA","Placebo"),legend_title=NULL,pval = FALSE,returns = FALSE, hr =TRUE,table=TRUE, reverseHR=TRUE, color=FALSE)
+# KaplanMeier(data=X[X$tPufa =="(0.829,4.3]",], predictor="fishoil", event="event_j45_5yr",eventage= "eventage_j45_5yr", timeby=365, main = NULL, xlabs = "Age (years)", ylabs="Risk of persistent wheeze / asthma (%)", legend_names=c("n3-LCPUFA","Placebo"),legend_title=NULL,returns = FALSE, hr =TRUE,table=TRUE, reverseHR=TRUE, color=FALSE)
 
 # Eks. adjust the cox (here by categorical: dvit and sex; and continous: solely_b)
 
-# KaplanMeier(data=X, predictor="fishoil", event="event_j45_5yr",eventage= "eventage_j45_5yr", adjust_cat = c("dvit_all","sex"), adjust_con = "solely_b", timeby=365, main = NULL, xlabs = "Age (years)", ylabs="Risk of persistent wheeze / asthma (%)", legend_names=c("n3-LCPUFA","Placebo"),legend_title=NULL,pval = FALSE,returns = TRUE, hr =TRUE,table=TRUE, reverseHR=TRUE, color=FALSE, ycut=50)
-# Changelog
-# 16/3-16 JT added "maxtime" to get consistent max times on x axes in stratified plots.
-# 29/3-16 JT changed anova() p values to standard parameter (z) p values
-
+# KaplanMeier(data=X, predictor="fishoil", event="event_j45_5yr",eventage= "eventage_j45_5yr", adjust_cat = c("dvit_all","sex"), adjust_con = "solely_b", timeby=365, main = NULL, xlabs = "Age (years)", ylabs="Risk of persistent wheeze / asthma (%)", legend_names=c("n3-LCPUFA","Placebo"),legend_title=NULL,returns = TRUE, hr =TRUE,table=TRUE, reverseHR=TRUE, color=FALSE, ycut=50)
 
 KaplanMeier <- function(data,
                         predictor,
