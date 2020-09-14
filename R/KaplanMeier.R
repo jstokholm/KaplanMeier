@@ -21,6 +21,7 @@
 #' @param main Plot title.
 #' @param legend_title Legend title; default is name of predictor.
 #' @param legend_names Define variable names for legend text.
+#' @param mintime To get consistent min times on x axes in stratified plots.
 #' @param maxtime To get consistent max times on x axes in stratified plots.
 #' @param rotate Switch the predictor order; default is FALSE.
 #' @param color Color plot, else black/greytone; default is TRUE.
@@ -69,6 +70,7 @@ KaplanMeier <- function(data,
                         main = "Kaplan-Meier Plot",
                         legend_title = NULL,
                         legend_names = NULL,
+                        mintime = NULL,
                         maxtime = NULL,
                         rotate = TRUE,
                         color=TRUE,
@@ -90,14 +92,15 @@ KaplanMeier <- function(data,
   if(is.null(legend_names)) legend_names <-as.character(levels(factor(data[,predictor])))
   m <- max(nchar(legend_names))
   if(is.null(legend_title)) legend_title <- "Strata"
-  if(is.null(maxtime)) maxtime <- sfit$time
+  if(is.null(mintime)) mintime <- 0
+  if(is.null(maxtime)) maxtime <- max(sfit$time)
 
   if(years) {
-    times <- seq(0, round(max(maxtime / 365))*365, by = timeby)
+    times <- seq(mintime, round(maxtime / 365)*365, by = timeby)
     sfit$time <- sfit$time / 365
     times <- times / 365
   }
-  else  times <- seq(0, ceiling(maxtime/timeby)*timeby, by = timeby)
+  else  times <- seq(mintime, ceiling(maxtime/timeby)*timeby, by = timeby)
   if(rotate) {
     sfit$upper <- 1 - sfit$upper
     sfit$surv <- 1 - sfit$surv
@@ -108,10 +111,10 @@ KaplanMeier <- function(data,
                     upper = sfit$upper, lower = sfit$lower)
   levels(.df$strata) <- legend_names
   if(rotate) {
-    zeros <- data.frame(time = 0, surv = 0, strata = factor(legend_names, levels=levels(.df$strata)),upper = 0, lower = 0)
+    zeros <- data.frame(time = mintime, surv = 0, strata = factor(legend_names, levels=levels(.df$strata)),upper = 0, lower = 0)
   }
   else {
-    zeros <- data.frame(time = 0, surv = 1.00, strata = factor(legend_names, levels=levels(.df$strata)), upper = 1.00, lower = 1.00)
+    zeros <- data.frame(time = mintime, surv = 1.00, strata = factor(legend_names, levels=levels(.df$strata)), upper = 1.00, lower = 1.00)
   }
   .df <- bind_rows(zeros, .df)
   .df[.df$time > max(times),"time"] <- max(times) #fix for curves being cut;
@@ -130,7 +133,7 @@ KaplanMeier <- function(data,
   }#ceiling(max(.df$surv)/0.05)*0.05
   p <- p +theme_bw() +
     theme(axis.title.x = element_text(vjust = 0.5)) +
-    scale_x_continuous(xlabs, breaks = times, limits = c(0, max(times))) +
+    scale_x_continuous(xlabs, breaks = times, limits = c(mintime, max(times))) +
     scale_y_continuous(ylabs, limits = c(0, ifelse(is.null(ycut),1,ycut/100)), labels = scales::percent_format(accuracy = 1)) +
     theme(panel.grid.minor = element_blank()) +
     theme(panel.grid.major = element_blank()) +
@@ -187,7 +190,7 @@ KaplanMeier <- function(data,
     else {
       HRtext <- paste0("aHR ", sprintf("%.2f",round(hr,2)), " [", sprintf("%.2f",round(hr_low,2)), "-",sprintf("%.2f",round(hr_high,2)),"], p ",ifelse(pval<0.001,"< 0.001",paste0("= ",format.pval(pval,1,0.001,nsmall=3))))
     }
-    p <-p + annotate("text", x = 0.5 * max(times),y=ifelse(is.null(ycut),1,ycut/100), label=HRtext, size = 5)
+    p <-p + annotate("text", x = mean(times),y=ifelse(is.null(ycut),1,ycut/100), label=HRtext, size = 5)
   }
 
   if(table) {
@@ -206,7 +209,7 @@ KaplanMeier <- function(data,
       #, color = strata)) +
       geom_text(size = 3.5) +
       theme_bw() +
-      scale_x_continuous(limits = c(0, max(times))) +
+      scale_x_continuous(limits = c(mintime, max(times))) +
       theme(axis.title.x = element_text(size = 10, vjust = 1), panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(), panel.border = element_blank(),
             axis.text.x = element_blank(), axis.ticks = element_blank(),

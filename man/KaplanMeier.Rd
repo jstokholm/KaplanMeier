@@ -24,6 +24,7 @@ KaplanMeier(
   main = "Kaplan-Meier Plot",
   legend_title = NULL,
   legend_names = NULL,
+  mintime = NULL,
   maxtime = NULL,
   rotate = TRUE,
   color = TRUE,
@@ -72,6 +73,8 @@ KaplanMeier(
 \item{legend_title}{Legend title; default is name of predictor.}
 
 \item{legend_names}{Define variable names for legend text.}
+
+\item{mintime}{To get consistent min times on x axes in stratified plots.}
 
 \item{maxtime}{To get consistent max times on x axes in stratified plots.}
 
