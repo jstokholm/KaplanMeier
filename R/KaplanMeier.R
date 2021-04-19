@@ -28,8 +28,9 @@
 #' @param colors Set of defined colors for predictor groups; default is NULL.
 #' @param annotation Paste an annotation in the corner; default is NULL.
 #' @param no_legends Removes legend; default is FALSE.
-#' @param no_names Removes taxa names; default is FALSE.
-#' @param low_legend Put legends in the bottom, else in the top corner; default is FALSE.
+#' @param no_names Removes y names; default is FALSE.
+#' @param low_legend Put legends in the bottom, else in the top corner;
+#' @param y_tick_n Number of y-ticks; default is NULL.
 #'
 #' @import ggplot2 survival gridExtra grid dplyr RColorBrewer
 #' @return A ggplot / grob
@@ -78,7 +79,8 @@ KaplanMeier <- function(data,
                         annotation=NULL,
                         no_legends=FALSE,
                         no_names=FALSE,
-                        low_legend=FALSE) {
+                        low_legend=FALSE,
+                        y_tick_n=NULL) {
 
   # require(ggplot2)
   # require(survival)
@@ -133,8 +135,7 @@ KaplanMeier <- function(data,
   }#ceiling(max(.df$surv)/0.05)*0.05
   p <- p +theme_bw() +
     theme(axis.title.x = element_text(vjust = 0.5)) +
-    scale_x_continuous(xlabs, breaks = times, limits = c(mintime, max(times))) +
-    scale_y_continuous(ylabs, limits = c(0, ifelse(is.null(ycut),1,ycut/100)), labels = scales::percent_format(accuracy = 1)) +
+    scale_x_continuous(xlabs, breaks = times, limits = c(mintime, max(times)))  +
     theme(panel.grid.minor = element_blank()) +
     theme(panel.grid.major = element_blank()) +
     theme(legend.title =element_blank()) +
@@ -147,14 +148,19 @@ KaplanMeier <- function(data,
     theme(plot.margin = unit(c(0, 1, 0.5, 0), "lines")) +
     ggtitle(main)
 
+  if(!is.null(y_tick_n)) {
+    p <- p + scale_y_continuous(ylabs, limits = c(0, ifelse(is.null(ycut),1,ycut/100)), breaks = seq(0, ifelse(is.null(ycut),1,ycut/100), by = ifelse(is.null(ycut),1,ycut/100)/y_tick_n), labels = scales::percent_format(accuracy = 1))
+    }
+  else {
+    p <- p + scale_y_continuous(ylabs, limits = c(0, ifelse(is.null(ycut),1,ycut/100)), labels = scales::percent_format(accuracy = 1))
+  }
 
-  if(!is.null(annotation)) p= p+ annotate("text", x = -Inf, y = Inf, label = annotation,size=12,color="black", vjust=1.3, hjust=-0.3)
+
+  if(!is.null(annotation)) p <- p+ annotate("text", x = -Inf, y = Inf, label = annotation,size=12,color="black", vjust=1.3, hjust=-0.3)
   if(no_legends) {
     p <- p + theme(legend.position="none")
   }
-  if(no_names) {
-    p <- p +scale_y_continuous(NULL, limits = c(0, ifelse(is.null(ycut),1,ycut/100)), labels = scales::percent_format(accuracy = 1)) +  theme(axis.text.y=element_blank(),axis.ticks.y=element_blank())
-  }
+
   if(hr) {
     if(is.null(adjust_cat) & is.null(adjust_con))
     {
@@ -221,7 +227,10 @@ KaplanMeier <- function(data,
     #Adjustment of y-axis for long stratanames;
     p <-p   +    theme(axis.title.y =element_text(margin=margin(r = ifelse(m < 8, 0, -6*m), unit = "pt"))) #R >3.22
     #   p <-p   +    theme(axis.title.y = element_text(vjust =ifelse(m < 8, 0, -0.4*m))) #R <=3.22
-    if(no_names)  data.table <- data.table +  theme(axis.text.y=element_blank())
+    if(no_names) {
+        p <- p +  theme(axis.title.y =element_blank(),axis.text.y=element_blank(),axis.ticks.y=element_blank())
+        data.table <- data.table +  theme(axis.text.y=element_blank())
+      }
 
     p <- ggplot_gtable(ggplot_build(p))
     data.table <- ggplot_gtable(ggplot_build(data.table))

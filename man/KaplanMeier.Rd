@@ -32,7 +32,8 @@ KaplanMeier(
   annotation = NULL,
   no_legends = FALSE,
   no_names = FALSE,
-  low_legend = FALSE
+  low_legend = FALSE,
+  y_tick_n = NULL
 )
 }
 \arguments{
@@ -88,7 +89,7 @@ KaplanMeier(
 
 \item{no_legends}{Removes legend; default is FALSE.}
 
-\item{no_names}{Removes taxa names; default is FALSE.}
+\item{no_names}{Removes y names; default is FALSE.}
 
 \item{low_legend}{Put legends in the bottom, else in the top corner; default is FALSE.}
 }
