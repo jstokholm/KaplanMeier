@@ -26,6 +26,7 @@
 #' @param rotate Switch the predictor order; default is FALSE.
 #' @param color Color plot, else black/greytone; default is TRUE.
 #' @param colors Set of defined colors for predictor groups; default is NULL.
+#' @param reverse_colors Flip the predictor group; default is FALSE.
 #' @param annotation Paste an annotation in the corner; default is NULL.
 #' @param no_legends Removes legend; default is FALSE.
 #' @param no_names Removes y names; default is FALSE.
@@ -76,6 +77,7 @@ KaplanMeier <- function(data,
                         rotate = TRUE,
                         color=TRUE,
                         colors=NULL,
+                        reverse_colors=FALSE,
                         annotation=NULL,
                         no_legends=FALSE,
                         no_names=FALSE,
@@ -121,6 +123,7 @@ KaplanMeier <- function(data,
   .df <- bind_rows(zeros, .df)
   .df[.df$time > max(times),"time"] <- max(times) #fix for curves being cut;
   d <- length(levels(.df$strata))
+  if(reverse_colors) .df$strata <- factor(.df$strata, levels=rev(levels(.df$strata)))
   if(color) {
     if(is.null(colors)){
       cols  <- c(brewer.pal(8,"Set1"), brewer.pal(7,"Dark2"),brewer.pal(7,"Set2"),brewer.pal(12,"Set3"),brewer.pal(7,"Accent"),brewer.pal(12,"Paired"),"gray")

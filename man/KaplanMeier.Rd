@@ -29,6 +29,7 @@ KaplanMeier(
   rotate = TRUE,
   color = TRUE,
   colors = NULL,
+  reverse_colors = FALSE,
   annotation = NULL,
   no_legends = FALSE,
   no_names = FALSE,
@@ -85,13 +86,17 @@ KaplanMeier(
 
 \item{colors}{Set of defined colors for predictor groups; default is NULL.}
 
+\item{reverse_colors}{Flip the predictor group; default is FALSE.}
+
 \item{annotation}{Paste an annotation in the corner; default is NULL.}
 
 \item{no_legends}{Removes legend; default is FALSE.}
 
 \item{no_names}{Removes y names; default is FALSE.}
 
-\item{low_legend}{Put legends in the bottom, else in the top corner; default is FALSE.}
+\item{low_legend}{Put legends in the bottom, else in the top corner;}
+
+\item{y_tick_n}{Number of y-ticks; default is NULL.}
 }
 \value{
 A ggplot / grob
