@@ -1,6 +1,6 @@
 Package: KaplanMeier
 Title: Kaplan-Meier plot
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: person("Jakob", "Stokholm", email = "stokholm@copsac.com", role = c("aut", "cre"))
 Description: For creating a Kaplan-Meier plot using ggplot2.
 Depends: R (>= 3.5.1)
@@ -8,4 +8,4 @@ Imports: ggplot2, survival, gridExtra, dplyr, grid, RColorBrewer
 License: GDP
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3

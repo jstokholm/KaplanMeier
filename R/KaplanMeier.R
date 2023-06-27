@@ -100,7 +100,7 @@ KaplanMeier <- function(data,
   if(is.null(maxtime)) maxtime <- max(sfit$time)
 
   if(years) {
-    times <- seq(mintime, round(maxtime / 365)*365, by = timeby)
+    times <- seq(mintime*365, round(maxtime / 365)*365, by = timeby)
     sfit$time <- sfit$time / 365
     times <- times / 365
   }
